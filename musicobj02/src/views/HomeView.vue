@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div id="d1">
-      oooooooo
+      <span class="iconfont icon-search"></span>
     </div>
   </div>
 </template>
