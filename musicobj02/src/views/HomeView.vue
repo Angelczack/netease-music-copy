@@ -18,7 +18,6 @@ import TopNav from "@/components/TopNav.vue"
 import SwiperCom from "@/components/SwiperCom.vue"
 import IconList from "@/components/IconList.vue"
 import MusicList from "@/components/MusicList.vue"
-import SwiperCom from "@/components/SwiperCom.vue"
 export default {
   name: 'HomeView',
   components: {
