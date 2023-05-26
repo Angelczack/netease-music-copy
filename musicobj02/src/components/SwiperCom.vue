@@ -37,7 +37,8 @@ export default {
     async mounted() {  //async ...await  异步ajax请求参数
         var res = await getBanner(1);
         this.imgs = res.data.banners;
-        console.log(res);
+        console.log(res.data);
+        // console.log(res);
         var myswiper = new Swiper("#swiperIndex",{
             loop:true,  //循环模式
             autoplay:true,  //自动轮播
