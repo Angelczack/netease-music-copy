@@ -7,10 +7,15 @@ export function getBanner(type = 0) {
     return axios.get(`${baseUrl}/banner?type=${type}`);
 }
 
-// 封装获取  调配例子：/personalized?limit=${limit}  limit=10,20,50,100
+// 封装获取音乐列表  /personalized?limit=1
 export function getMlists(limit=10) {
     return axios.get(`${baseUrl}/personalized?limit=${limit}`);
 }
 
+// 封装获取歌单详情  /playlist/detail?id=24381616
+export function getListDetail(id) {
+    return axios.get(`${baseUrl}/playlist/detail?id=${id}`);
+}
+
 //对外抛出
-export default { getBanner,getMlists };
+export default { getBanner,getMlists,getListDetail };
