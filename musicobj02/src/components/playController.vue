@@ -9,10 +9,10 @@
         </div>
 
         <div class="right">
-            <svg class="icon" aria-hidden="true" @click="kai">
+            <svg v-if="played" class="icon" aria-hidden="true" @click="play">
                 <use xlink:href="#icon-bofang1"></use>
             </svg>
-            <svg class="icon" aria-hidden="true" @click="ting">
+            <svg v-else class="icon" aria-hidden="true" @click="play">
                 <use xlink:href="#icon-iconstop"></use>
             </svg>
             <svg class="icon" aria-hidden="true">
@@ -21,7 +21,7 @@
         </div>
         <!-- 如何获取播放歌曲的mp3地址 -->
         <!-- controls audio标签属性 一般不显示 -->
-        <!-- audio play()播放音乐  pause()暂停音乐 -->
+        <!-- audio play()播放音乐  pause()暂停音乐 paused当前歌曲是否处于暂停状态-->
         <!--  -->
         <audio ref="audio"
             :src="`https://music.163.com/song/media/outer/url?id=${playlist[playCurrentIndex].id}.mp3`"></audio>
@@ -32,16 +32,25 @@
 import { mapState } from 'vuex';
 export default {
     name: "playcontroller",
+    data() {
+        return {
+            played: true   //当前音乐是否出于暂停状态
+        }
+    },
     computed: {
         ...mapState(["playlist", "playCurrentIndex"]) //获取正在播放插曲列表，以及正在播放歌曲下标
     },
     methods: {
-        kai() {
-            //this.$refs.audio  获取audio标签
-            this.$refs.audio.play();
-        },
-        ting() {
-            this.$refs.audio.pause();
+        play() {
+            if (this.$refs.audio.paused == true) {  //paused是audio 的一个属性名 true为暂停状态
+                //this.$refs.audio  获取audio标签
+                this.$refs.audio.play();
+                this.played=false;
+            }
+            else{
+                this.$refs.audio.pause();
+                this.played=true;
+            }
         }
     }
 }

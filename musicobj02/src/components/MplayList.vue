@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="right">
-                    <svg class="icon" aria-hidden="true">
+                    <svg class="icon" aria-hidden="true" @click="setPlayIndex(index)">
                         <use xlink:href="#icon-bofang2"></use>
                     </svg>
                     <svg class="icon" aria-hidden="true">
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
     name: "mplaylist",
     props:["playList"],
@@ -46,6 +48,9 @@ export default {
         return {
             
         }
+    },
+    methods: {
+   ...mapMutations(["setPlayIndex"])     
     },
     created() {
 
