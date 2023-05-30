@@ -1,7 +1,7 @@
 <template>
     <div class="playController">
         <div class="left">
-            <img :src="playlist[playCurrentIndex].al.picUrl" />
+            <img :src="playlist[playCurrentIndex].al.picUrl" @click="show = !show"/>
             <div class="content">
                 <div class="title">{{ playlist[playCurrentIndex].name }}</div>
                 <div class="tips">横划可以切换上下首哦</div>
@@ -19,6 +19,8 @@
                 <use xlink:href="#icon-liebiao1"></use>
             </svg>
         </div>
+        <!-- 歌曲详情页面 -->
+        <play-music v-show="show" @back="show = !show"></play-music>
         <!-- 如何获取播放歌曲的mp3地址 -->
         <!-- controls audio标签属性 一般不显示 -->
         <!-- audio play()播放音乐  pause()暂停音乐 paused当前歌曲是否处于暂停状态-->
@@ -30,15 +32,20 @@
 
 <script>
 import { mapState } from 'vuex';
+import PlayMusic from './PlayMusic.vue';
 export default {
     name: "playcontroller",
     data() {
         return {
-            played: true   //当前音乐是否出于暂停状态
+            played: true,   //当前音乐是否出于暂停状态
+            show:false      //歌曲详情是否显示
         }
     },
     computed: {
         ...mapState(["playlist", "playCurrentIndex"]) //获取正在播放插曲列表，以及正在播放歌曲下标
+    },
+    components:{
+        PlayMusic
     },
     methods: {
         play() {
