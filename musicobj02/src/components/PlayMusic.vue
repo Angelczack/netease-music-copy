@@ -67,20 +67,23 @@ export default {
         }
     },
     computed:{
-        ...mapState(["playCurrentIndex"])   //当前播放音乐下标
+        ...mapState(["playCurrentIndex","playlist"])   //当前播放音乐下标  当前音乐播放列表
     },
     methods: {
         tabMusic(num) {
-            console.log(num);
-            if(num>0){
-                this.playCurrentIndex+=num;
-            }
-            else{
-                this.playCurrentIndex+=num;
-            }
+            // console.log(num);
+           var index = this.playCurrentIndex+num;   //切换后的下标
+           console.log(index);          
 
+           if(index<0){     //第一首切换到最后一首
+            index = this.playlist.length-1;
+           }
+           else if(index == this.playlist.length){  //最后一首切换到第一首
+            index=0;
+           }
+           this.setPlayIndex(index);
         },
-        ...mapMutations(["setPlayIndex"])  //获取当前播放音乐下标的方法
+        ...mapMutations(["setPlayIndex"])  //修改当前播放音乐下标的方法
     }
 }
 </script>
