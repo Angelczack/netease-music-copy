@@ -20,7 +20,7 @@
             </svg>
         </div>
         <!-- 歌曲详情页面 -->
-        <play-music v-show="show" @back="show = !show"></play-music>
+        <play-music :played="played" :play="play" :playDetail="playlist[playCurrentIndex]" v-show="show" @back="show = !show"></play-music>
         <!-- 如何获取播放歌曲的mp3地址 -->
         <!-- controls audio标签属性 一般不显示 -->
         <!-- audio play()播放音乐  pause()暂停音乐 paused当前歌曲是否处于暂停状态-->
