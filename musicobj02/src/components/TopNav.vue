@@ -13,7 +13,7 @@
             <span class="navbtn">视频</span>
         </div>
 
-        <div class="topRight">
+        <div class="topRight" @click.stop.prevent="$router.push('/search')"> 
             <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-search"></use>
             </svg>

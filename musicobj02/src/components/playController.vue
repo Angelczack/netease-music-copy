@@ -33,6 +33,8 @@
 <script>
 import { mapState } from 'vuex';
 import PlayMusic from './PlayMusic.vue';
+import { getLyric } from "@/api/index.js"
+import store from '@/store';
 export default {
     name: "playcontroller",
     data() {
@@ -46,6 +48,17 @@ export default {
     },
     components:{
         PlayMusic
+    },
+    async created() {   //生命周期函数
+        var res = await getLyric(this.playlist[this.playCurrentIndex].id);
+        // console.log(res);
+        store.commit("setLyric",res.data.lrc.lyric);       //修改状态管理库中歌词数据
+    },
+    async updated() {    //view与model数据更新后
+        var res = await getLyric(this.playlist[this.playCurrentIndex].id);
+        // console.log(res);
+        store.commit("setLyric",res.data.lrc.lyric);        //修改状态管理库中歌词数据
+
     },
     methods: {
         play() {

@@ -1,8 +1,7 @@
 <!-- 歌曲播放页面 -->
 <template>
     <div class="playMusic">
-        <div class="bg"
-            :style="{ backgroundImage: `url(${playDetail.al.picUrl})` }">
+        <div class="bg" :style="{ backgroundImage: `url(${playDetail.al.picUrl})` }">
         </div>
         <div class="playTop">
             <div class="back" @click="$emit('back')">
@@ -21,12 +20,11 @@
         </div>
 
         <div v-if="isLyric" class="playLyric" @click="isLyric = !isLyric">
-            Angelczack created the world,Angelczack created the world,Angelczack created the world,Angelczack created the
-            world
+            {{ lyric }}
         </div>
         <div v-else class="playContent" @click="isLyric = !isLyric">
             <!-- class有active小白条落下，class没有active小白条抬起 -->
-            <img class="needle" :class="{active:!played}" src="../assets/needle-ip6.png" alt="">
+            <img class="needle" :class="{ active: !played }" src="../assets/needle-ip6.png" alt="">
             <img class="disc" src="../assets/disc-ip6.png" alt="">
             <img class="playImg" :src="playDetail.al.picUrl" />
 
@@ -57,33 +55,42 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import { getLyric } from "@/api/index.js"
 
 export default {
     name: "playmusic",
-    props:["played","play","playDetail"],
+    props: ["played", "play", "playDetail"],
     data() {
         return {
-            isLyric:false  //歌词与唱片的转换
+            isLyric: false  //歌词与唱片的转换
         }
     },
-    computed:{
-        ...mapState(["playCurrentIndex","playlist"])   //当前播放音乐下标  当前音乐播放列表
+    async created() {   //生命周期函数
+        var res = await getLyric(this.playlist[this.playCurrentIndex].id);
+        console.log(res);
+    },
+    async updated() {    //view与model数据更新后
+        var res = await getLyric(this.playlist[this.playCurrentIndex].id);
+        console.log(res);
+    },
+    computed: {
+        ...mapState(["playCurrentIndex", "playlist", "lyric"])   //当前播放音乐下标  当前音乐播放列表
     },
     methods: {
         tabMusic(num) {
             // console.log(num);
-           var index = this.playCurrentIndex+num;   //切换后的下标
-           console.log(index);          
+            var index = this.playCurrentIndex + num;   //切换后的下标
+            console.log(index);
 
-           if(index<0){     //第一首切换到最后一首
-            index = this.playlist.length-1;
-           }
-           else if(index == this.playlist.length){  //最后一首切换到第一首
-            index=0;
-           }
-           this.setPlayIndex(index);
+            if (index < 0) {     //第一首切换到最后一首
+                index = this.playlist.length - 1;
+            }
+            else if (index == this.playlist.length) {  //最后一首切换到第一首
+                index = 0;
+            }
+            this.setPlayIndex(index);
         },
-        ...mapMutations(["setPlayIndex"])  //修改当前播放音乐下标的方法
+        ...mapMutations(["setPlayIndex", "setLyric"])  //修改当前播放音乐下标的方法
     }
 }
 </script>

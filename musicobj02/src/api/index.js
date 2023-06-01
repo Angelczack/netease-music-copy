@@ -16,6 +16,15 @@ export function getMlists(limit=10) {
 export function getListDetail(id) {
     return axios.get(`${baseUrl}/playlist/detail?id=${id}`);
 }
+// 封装获取歌曲歌词 /lyric?id=33894312
+export function getLyric(id) {
+    return axios.get(`${baseUrl}/lyric?id=${id}`);
+}
+// 封装获取歌曲歌词 /lyric?id=33894312
+export function SearchMusic(keywords) {
+    return axios.get(`${baseUrl}/search?keywords=${keywords}`);
+}
+
 
 //对外抛出
-export default { getBanner,getMlists,getListDetail };
+export default { getBanner,getMlists,getListDetail,getLyric,SearchMusic };
