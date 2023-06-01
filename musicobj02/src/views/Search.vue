@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="right">
-                        <svg class="icon" aria-hidden="true" @click="setup">
+                        <svg class="icon" aria-hidden="true" @click="setPlay(item)">
                             <use xlink:href="#icon-bofang2"></use>
                         </svg>
                         <svg class="icon" aria-hidden="true">
@@ -48,8 +48,8 @@
     </div>
 </template>
 <script>
-import { SearchMusic } from "@/api/index.js"
-import { mapMutations } from "vuex";
+import { SearchMusic } from "../api/index.js"
+import { mapMutations, mapState } from "vuex";
 export default {
     name: "search",
     data() {
@@ -58,27 +58,35 @@ export default {
             songs: []        //搜索的结果
         }
     },
+    computed: {
+        ...mapState(["playlist"])
+    },
     methods: {
         // 播放搜索的歌曲
-        setplay() {
-            console.log(item)
+        setPlay(item) {
+            // console.log(item);
             item.al = item.album;
-            item.al.pciUrl = item.album.artist.img1v1Url;   //要加入的数据item与playlist原有数据，格式不一致，统一他们的格式
+            item.al.picUrl = item.album.artist.img1v1Url;   //要加入的数据item与playlist原有数据，格式不一致，统一他们的格式
             console.log(item);
             // 
             this.pushPlayList(item);    //使用辅助函数的形式    将item追加到播放列表playlist末尾
-            this.setPlayIndex(this.$store.state.playlist.length-1);     //将正在播放的下标改为playlist数组的最后一个下标
+            this.setPlayIndex(this.$store.state.playlist.length - 1);     //将正在播放的下标改为playlist数组的最后一个下标
         },
+        // 搜索歌曲的函数
         async inputvs() {
-            console.log(this.inputs); //搜索关键字
-            var res = await SearchMusic(this.inputs);     //发送ajax请求
-            console.log(res);
-            console.log(res.data.result.songs);
-            this.songs=res.data.result.songs;
+            if (this.inputs != "") {
+                console.log(this.inputs); //搜索关键字
+                var res = await SearchMusic(this.inputs);     //发送ajax请求
+                // console.log(res);
+                console.log(res.data.result.songs);
+                this.songs = res.data.result.songs;
+            }
         },
-        ...mapMutations(['pushPlayList','setPlayIndex'])
-    },
+        ...mapMutations(['pushPlayList', 'setPlayIndex', "playCurrentIndex"])
+    }
 }
+
+
 </script>
 
 
